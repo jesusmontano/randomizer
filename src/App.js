@@ -17,7 +17,8 @@ class App extends React.Component {
 
     this.state = {
         emoji: '🤔',
-        probability: 50
+        probability: 50,
+        outcome: 'Perhaps...'
     };
   };
 
@@ -30,19 +31,21 @@ class App extends React.Component {
     let selectedEmojis = [];
 
     if (randomNumber > probability) {
-      // bad outcome;
       selectedEmojis.push(...badEmojis);
     } else {
-      // good outcome
       selectedEmojis.push(...goodEmojis);
     }
-
-    // const emojis = [['👍', true], ['🥺', false], ['👎', false], ['🤗', true], ['😞', false], ['😛', true]];
 
     const selectedEmoji = selectedEmojis[Math.floor(Math.random() * selectedEmojis.length)];
 
     if (previousEmoji === selectedEmoji) {
         return this.generateEmoji(previousEmoji, probability);
+    };
+
+    if (badEmojis.includes(selectedEmoji)) {
+      this.setState({ outcome: 'No' })
+    } else {
+      this.setState({ outcome: 'Yes '})
     };
 
     this.setState({emoji: selectedEmoji});
@@ -93,7 +96,7 @@ class App extends React.Component {
                 />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                  {this.state.emoji}
+                  {`${this.state.emoji} ${this.state.outcome}`}
                 </Typography>
               </CardContent>
             </CardActionArea>
